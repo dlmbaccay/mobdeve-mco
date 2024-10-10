@@ -1,1 +1,1 @@
-# mobdeve_mco
+# mobdeve-mco
