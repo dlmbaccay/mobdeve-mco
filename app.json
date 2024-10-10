@@ -5,7 +5,7 @@
     "scheme": "mobdeve-mco",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/bike-logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -21,16 +21,20 @@
       "googleServicesFile": "./google-services.json",
       "package": "com.garynation.mobdeve",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/images/bike-logo.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/images/bike-logo.png",
     },
     "plugins": [
       "expo-router",
-      "@react-native-firebase/app"
+      "@react-native-firebase/app",
+      "expo-location",
+      {
+        "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+      }
     ],
     "extra": {
       "eas": {
