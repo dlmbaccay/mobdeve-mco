@@ -37,3 +37,6 @@ yarn-error.*
 # platforms
 /android
 /ios
+
+google-services.json
+GoogleService-Info.plist
