@@ -5,13 +5,6 @@ import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { useState, useEffect } from "react";
 
-interface LocationType {
-  latitude: number;
-  longitude: number;
-  latitudeDelta: number;
-  longitudeDelta: number;
-};
-
 export default function App() {
 
   useEffect(() => {
