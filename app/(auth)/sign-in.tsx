@@ -16,7 +16,7 @@ const SignIn = () => {
 
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [isSubmitting, setSubmitting] = useState(false);
-
+  const [forgotVisible, setForgotVisible] = useState(false);
   const theme = useTheme();
 
   const handleSignIn = () => {
@@ -107,6 +107,23 @@ const SignIn = () => {
             onChangeText={(e: string) => setForm({ ...form, password: e })}
             style={{ backgroundColor: theme.colors.surface }}
           />
+
+
+          <TouchableOpacity
+            className="w-[90%] mt-6"
+            onPress={() => setForgotVisible(true)}
+          >
+            <Text className=" text-right text-sm">
+              Forgot Password?
+            </Text>
+          </TouchableOpacity>
+
+          { forgotVisible && 
+            <ForgotPassword
+              forgotVisible={forgotVisible}
+              hideForgotModal={() => setForgotVisible(false)}
+            />
+          }
 
           <Button
             mode="contained"
