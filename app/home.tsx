@@ -8,6 +8,7 @@ import * as Location from "expo-location";
 import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
 import SpinningWheel from "../components/spinningWheel";
+import AddReport from "../components/addReport";
 
 interface LocationType {
   latitude: number;
@@ -52,6 +53,10 @@ const Home = () => {
   const [mapRef, setMapRef] = useState<MapView | null>(null);
   const [isNotCentered, setIsNotCentered] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState<LocationType | null>(null);
+  const slideAnimation = useRef(new Animated.Value(300)).current;
+  const [addReportVisible, setAddReportVisible] = useState(false);
+  const [markers, setMarkers] = useState<MarkerType[]>([]); 
 
   useEffect(() => {
     const initializeLocationAndFetchMarkers = async () => {
@@ -109,6 +114,14 @@ const Home = () => {
     }
   };
 
+  const handleAddReport = (e: any) => {
+    const { coordinate } = e.nativeEvent;
+    const selectedLocation = { ...coordinate, latitudeDelta: 0.01, longitudeDelta: 0.01 };
+    setSelectedLocation(selectedLocation);
+    setAddReportVisible(true);
+    Animated.timing(slideAnimation, { toValue: 0, duration: 150, useNativeDriver: true }).start();
+  }
+
   return (
     <SafeAreaView className="h-full w-full" style={{ backgroundColor: theme.colors.background }}>
       <View className="w-full h-full flex items-center justify-center">
@@ -127,10 +140,25 @@ const Home = () => {
                   showsUserLocation={true}
                   provider="google"
                   onLongPress={(e) => {
-                    // TODO: add marker/reports functionality
+                    handleAddReport(e);
                   }}
                 >
                 </MapView>
+
+                {addReportVisible && selectedLocation && (
+                  <AddReport
+                    reportVisible={addReportVisible}
+                    hideReport={() => { 
+                      Animated.timing(slideAnimation, { toValue: 300, duration: 150, useNativeDriver: true })
+                      .start(() => setAddReportVisible(false));
+                    }}
+                    slideAnimation={slideAnimation}
+                    latitude={selectedLocation.latitude}
+                    longitude={selectedLocation.longitude}
+                    setMarkers={setMarkers}
+                    isNewMarker={true}
+                  />
+                )}
 
                 <FAB
                   icon="refresh"
