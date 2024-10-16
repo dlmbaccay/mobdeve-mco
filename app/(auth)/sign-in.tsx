@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button, TextInput, Text, useTheme } from "react-native-paper";
 import bikeLogo from "../../assets/images/bike-logo.png";
+import ForgotPassword from "../../components/forgotPassword";
 import { router } from "expo-router";
 import auth from "@react-native-firebase/auth";
-
 
 const SignIn = () => {
   const [form, setForm] = useState({
