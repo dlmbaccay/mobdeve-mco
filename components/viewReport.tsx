@@ -32,8 +32,11 @@ const ViewReport = ({ reportVisible, hideViewReport, reportsData, setMarkers }: 
   const slideAnimation = useRef(new Animated.Value(300)).current;
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const theme = useTheme();
+  const [editReportVisible, setEditReportVisible] = useState(false);
+  const [deleteReportVisible, setDeleteReportVisible] = useState(false);
+  const [selectedReport, setSelectedReport] = useState<ReportType | null>(null);
 
-  const handleAccordionPress = (index: number) => {
+  const handleAccordionPress = (index: number) => {    
     setExpandedIndex(expandedIndex === index ? null : index);
   };
 
@@ -60,7 +63,8 @@ const ViewReport = ({ reportVisible, hideViewReport, reportsData, setMarkers }: 
               size={18}
               style= {{ margin: 0 }}
               onPress={() => {
-                // TODO: Implement Edit Functionality
+                setSelectedReport(report);
+                setEditReportVisible(true); 
               }}
             />
 
@@ -69,7 +73,8 @@ const ViewReport = ({ reportVisible, hideViewReport, reportsData, setMarkers }: 
               size={18}
               style= {{ margin: 0 }}
               onPress={() => {
-                // TODO: Implement Delete Functionality
+                setSelectedReport(report);
+                setDeleteReportVisible(true);
               }}
             />
           </View>
@@ -195,7 +200,24 @@ const ViewReport = ({ reportVisible, hideViewReport, reportsData, setMarkers }: 
         />
       )}
 
-      {/* TODO: Implement Edit and Delete Functionalities */}
+      { deleteReportVisible && (
+        <DeleteReport
+          deleteReportVisible={deleteReportVisible}
+          hideDeleteReport={() => setDeleteReportVisible(false)}
+          hideViewReport={hideViewReport}
+          reportData={selectedReport}
+          setMarkers={setMarkers}
+        />
+      )}
+
+      { editReportVisible && (
+        <EditReport
+          editReportVisible={editReportVisible}
+          hideEditReport={() => setEditReportVisible(false)}
+          hideViewReport={hideViewReport}
+          reportData={selectedReport}
+        />
+      )}
 
       {/* Fullscreen image modal */}
       <Portal>
