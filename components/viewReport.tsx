@@ -3,6 +3,8 @@ import { Animated, View, Image, TouchableOpacity, ScrollView } from "react-nativ
 import { Modal, Text, Portal, Button, Divider, List, IconButton, useTheme } from "react-native-paper";
 import auth from "@react-native-firebase/auth";
 import AddReport from "./addReport";
+import DeleteReport from "./deleteReport";
+import EditReport from "./editReport";
 
 interface ViewReportProps {
   reportVisible: boolean;
