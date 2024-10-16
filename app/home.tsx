@@ -247,6 +247,19 @@ const Home = () => {
     setViewReportVisible(true);
   }
 
+  const handleSignOut = () => {
+    try {
+      auth().signOut().then(() => {
+        ToastAndroid.show("Come back soon!", ToastAndroid.SHORT);
+        router.push("sign-in");
+      });
+    } catch (error) {
+      console.error("Error signing out: ", error);
+    }
+  } 
+
+
+
   return (
     <SafeAreaView className="h-full w-full" style={{ backgroundColor: theme.colors.background }}>
       <View className="w-full h-full flex items-center justify-center">
@@ -303,6 +316,12 @@ const Home = () => {
                     setMarkers={setMarkers}
                   />
                 )}
+
+                <FAB
+                  icon="trash"
+                  onPress={handleSignOut}
+                  style={{ position: 'absolute', margin: 16, right: 5, bottom: 145, backgroundColor: theme.colors.primaryContainer }}
+                />
 
                 <FAB
                   icon="refresh"
