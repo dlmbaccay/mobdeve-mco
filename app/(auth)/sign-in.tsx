@@ -6,7 +6,6 @@ import bikeLogo from "../../assets/images/bike-logo.png";
 import { router } from "expo-router";
 import auth from "@react-native-firebase/auth";
 
-// TODO: Implement Forgot Password
 
 const SignIn = () => {
   const [form, setForm] = useState({
