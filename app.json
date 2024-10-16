@@ -21,7 +21,7 @@
       "googleServicesFile": "./google-services.json",
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyB3jtYPw8gLCtOuoFkZdCuxhdFhm2GdFB0"
+          "apiKey": "AIzaSyBZba6M08QYNLVcrdYd6M-6EGr8vvtBIyk"
         }
       },
       "package": "com.garynation.mobdeve",
@@ -35,7 +35,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/images/bike-logo.png",
+      "favicon": "./assets/images/bike-logo.png"
     },
     "plugins": [
       "expo-router",
