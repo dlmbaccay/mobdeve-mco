@@ -78,6 +78,7 @@ const Home = () => {
           latitudeDelta: 0.01,
           longitudeDelta: 0.01,
         });
+
         fetchMarkers(userLocation, 5);
       } catch (error) {
         console.error("Error fetching location:", error);
@@ -318,7 +319,7 @@ const Home = () => {
                 )}
 
                 <FAB
-                  icon="trash"
+                  icon="logout-variant"
                   onPress={handleSignOut}
                   style={{ position: 'absolute', margin: 16, right: 5, bottom: 145, backgroundColor: theme.colors.primaryContainer }}
                 />
