@@ -319,6 +319,12 @@ const Home = () => {
                 )}
 
                 <FAB
+                  icon="account"
+                  onPress={() => router.push("user-profile")}
+                  style={{ position: 'absolute', margin: 16, right: 5, bottom: 215, backgroundColor: theme.colors.primaryContainer }}
+                />
+
+                <FAB
                   icon="logout-variant"
                   onPress={handleSignOut}
                   style={{ position: 'absolute', margin: 16, right: 5, bottom: 145, backgroundColor: theme.colors.primaryContainer }}

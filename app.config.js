@@ -22,6 +22,11 @@ const appConfig = {
     android: {
       googleServicesFile: "./google-services.json",
       package: "com.garynation.mobdeve",
+      config: {
+        googleMaps: {
+          apiKey: process.env.GOOGLE_MAPS_API_KEY,
+        },
+      },
       adaptiveIcon: {
         foregroundImage: "./assets/images/bike-logo.png",
         backgroundColor: "#ffffff",
@@ -29,11 +34,6 @@ const appConfig = {
     },
     web: {
       favicon: "./assets/images/bike-logo.png",
-    },
-    config: {
-      googleMaps: {
-        apiKey: process.env.GOOGLE_MAPS_API_KEY,
-      },
     },
     plugins: [
       "expo-router",
