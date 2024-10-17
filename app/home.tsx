@@ -10,6 +10,7 @@ import firestore from "@react-native-firebase/firestore";
 import SpinningWheel from "../components/spinningWheel";
 import AddReport from "../components/addReport";
 import ViewReport from "../components/viewReport";
+import TopBar from "../components/topBar";
 
 interface LocationType {
   latitude: number;
@@ -294,6 +295,8 @@ const Home = () => {
                   ))}
                 </MapView>
 
+                <TopBar user={user} handleSignOut={handleSignOut} />
+
                 {addReportVisible && selectedLocation && (
                   <AddReport
                     reportVisible={addReportVisible}
@@ -317,18 +320,6 @@ const Home = () => {
                     setMarkers={setMarkers}
                   />
                 )}
-
-                <FAB
-                  icon="account"
-                  onPress={() => router.push("user-profile")}
-                  style={{ position: 'absolute', margin: 16, right: 5, bottom: 215, backgroundColor: theme.colors.primaryContainer }}
-                />
-
-                <FAB
-                  icon="logout-variant"
-                  onPress={handleSignOut}
-                  style={{ position: 'absolute', margin: 16, right: 5, bottom: 145, backgroundColor: theme.colors.primaryContainer }}
-                />
 
                 <FAB
                   icon="refresh"
