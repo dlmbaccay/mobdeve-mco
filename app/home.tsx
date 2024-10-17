@@ -49,17 +49,25 @@ interface User {
 
 const Home = () => {
 
-  const [location, setLocation] = useState<LocationType | null>(null);
   const theme = useTheme();
+  
+  // location and map states
   const [isLoading, setLoading] = useState(true);
   const [mapRef, setMapRef] = useState<MapView | null>(null);
-  const [isNotCentered, setIsNotCentered] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [location, setLocation] = useState<LocationType | null>(null);
   const [selectedLocation, setSelectedLocation] = useState<LocationType | null>(null);
+  const [isNotCentered, setIsNotCentered] = useState(false);
+
+  // animation states for AddReport component
+  const [isAnimating, setIsAnimating] = useState(false);
   const slideAnimation = useRef(new Animated.Value(300)).current;
-  const [addReportVisible, setAddReportVisible] = useState(false);
+
+  // marker and report states
   const [markers, setMarkers] = useState<MarkerType[]>([]); 
   const [reports, setReports] = useState<ReportType[]>([]);
+  
+  // visibility states
+  const [addReportVisible, setAddReportVisible] = useState(false);
   const [viewReportVisible, setViewReportVisible] = useState(false);
 
   const [user, setUser] = useState<User>({
@@ -69,7 +77,7 @@ const Home = () => {
     avatarUrl: "",
   });
 
-  useEffect(() => {
+  useEffect(() => { 
     const initializeLocationAndFetchMarkers = async () => {
       try {
         const userLocation = await getUserCurrentLocation();
@@ -80,12 +88,13 @@ const Home = () => {
           longitudeDelta: 0.01,
         });
 
-        fetchMarkers(userLocation, 5);
+        fetchMarkers(userLocation, 5); // fetch markers within 5km radius
       } catch (error) {
         console.error("Error fetching location:", error);
       }
     };
 
+    // fetch user data from firestore
     const fetchUserData = async () => {
       if (auth().currentUser) {
         firestore().collection("users").doc(auth().currentUser?.uid).get()
@@ -107,17 +116,35 @@ const Home = () => {
     fetchUserData();
   }, []);
 
+  /**
+   * getUserCurrentLocation
+   * - Get user's current location
+   * 
+   * @returns user's current location
+   */
   const getUserCurrentLocation = async (): Promise<Location.LocationObject> => {
-    return await Location.getCurrentPositionAsync({
+    return await Location.getCurrentPositionAsync({ // get user's current location
       accuracy: Location.Accuracy.High,
     });
   };
 
+  /**
+   * fetchMarkers
+   * - Fetch markers within a certain radius  
+   * - Triggered as the user opens the app
+   * - Fetches markers created within the last 24 hours
+   * - Filters markers within the radius using haversine formula
+   * - Stores filtered markers in state
+   * 
+   * @param userLocation - user's current location
+   * @param radius - radius
+   */
   const fetchMarkers = async (userLocation: Location.LocationObject, radius: number) => {
     try {
       const dateNow = new Date();
       const twentyFourHoursAgo = new Date(dateNow.getTime() - 24 * 60 * 60 * 1000);
 
+      // fetch markers created within the last 24 hours
       const snapshot = await firestore()
         .collection("markers")
         .where("lastCreatedReportAt", ">=", twentyFourHoursAgo)
@@ -130,6 +157,7 @@ const Home = () => {
         lastCreatedReportAt: firestore.FieldValue.serverTimestamp(),
       }));
 
+      // filter markers within the radius using haversine formula
       const filteredMarkers = fetchedMarkers.filter((marker) => {
         const distance = memoizedHaversine(
           userLocation.coords.latitude,
@@ -140,6 +168,7 @@ const Home = () => {
         return distance <= radius;
       });
 
+      // store filtered markers in state
       setMarkers(filteredMarkers);
     } catch (error) {
       console.error("Error fetching markers:", error);
@@ -148,6 +177,11 @@ const Home = () => {
     }
   };
 
+  /**
+   * memoizedHaversine
+   * - Haversine formula to calculate distance between two points
+   * - Memoized to cache results
+   */
   const memoizedHaversine = (() => {
     const cache = new Map();
     
@@ -172,6 +206,11 @@ const Home = () => {
     };
   })();
 
+  /**
+   * handleRefetchMarkers
+   * - Refetch markers within a 5km radius
+   * - Calls fetchMarkers with the user's current location and a 5km radius
+   */
   const handleRefetchMarkers = async () => {
     try {
       setLoading(true);
@@ -184,6 +223,16 @@ const Home = () => {
     }
   };
 
+  /**
+   * handleRegionChange 
+   * - Handle region change when user pans the map
+   * - Triggered by the user panning the map
+   * - Check if the region is centered
+   * - Set isNotCentered state accordingly
+   * - Utilized to control the recenter FAB icon
+   * 
+   * @param region - region
+   */
   const handleRegionChange = (region: any) => {
     if (location) {
       const isCentered =
@@ -194,6 +243,14 @@ const Home = () => {
     }
   };
 
+  /**
+   * recenterMap
+   * - Recenter the map to the user's current location
+   * - Animate the map to the user's current location
+   * - Set isNotCentered state to false
+   * - Utilized to recenter the map when the recenter FAB is pressed
+   * 
+   */
   const recenterMap = async () => {
     if (mapRef && location && !isAnimating) {
       setIsAnimating(true);
@@ -213,6 +270,30 @@ const Home = () => {
     }
   };
 
+  /**
+   * handleAddReport
+   * - Triggered by the user long-pressing the map
+   * - Sets the selected location state
+   * - Displays the AddReport component
+   * 
+   * @param e - event
+   */
+  const handleAddReport = (e: any) => {
+    const { coordinate } = e.nativeEvent;
+    const selectedLocation = { ...coordinate, latitudeDelta: 0.01, longitudeDelta: 0.01 };
+    setSelectedLocation(selectedLocation);
+    setAddReportVisible(true);
+    Animated.timing(slideAnimation, { toValue: 0, duration: 150, useNativeDriver: true }).start();
+  }
+
+  /**
+   * fetchMarkerReports
+   * - Called by handleViewMarkerPress to fetch reports for a marker passed as an argument
+   * - Fetches reports for a marker
+   * - Stores fetched reports in state
+   * 
+   * @param markerId - marker ID
+   */
   const fetchMarkerReports = async (markerId: string) => {
     try {
       const snapshot = await firestore().collection('reports').where('markerId', '==', markerId).get();
@@ -236,19 +317,28 @@ const Home = () => {
     }
   }
 
-  const handleAddReport = (e: any) => {
-    const { coordinate } = e.nativeEvent;
-    const selectedLocation = { ...coordinate, latitudeDelta: 0.01, longitudeDelta: 0.01 };
-    setSelectedLocation(selectedLocation);
-    setAddReportVisible(true);
-    Animated.timing(slideAnimation, { toValue: 0, duration: 150, useNativeDriver: true }).start();
-  }
-
+  /**
+   * handleViewMarkerPress
+   * - Triggered by the user pressing a marker
+   * - Calls fetchMarkerReports to fetch reports for the marker
+   * - Displays the ViewReport component
+   * - Passes the fetched reports to the ViewReport component
+   *
+   * @param markerId - marker ID
+   */
   const handleViewMarkerPress = async (markerId: string) => {
     await fetchMarkerReports(markerId);
     setViewReportVisible(true);
   }
 
+  /**
+   * handleSignOut
+   * - Sign out the user
+   * - Triggered by the user pressing the sign out FAB
+   * - Displays a toast message
+   * - Redirects the user to the sign-in page
+   * 
+   */
   const handleSignOut = () => {
     try {
       auth().signOut().then(() => {
@@ -259,8 +349,6 @@ const Home = () => {
       console.error("Error signing out: ", error);
     }
   } 
-
-
 
   return (
     <SafeAreaView className="h-full w-full" style={{ backgroundColor: theme.colors.background }}>
@@ -297,6 +385,18 @@ const Home = () => {
 
                 <TopBar user={user} handleSignOut={handleSignOut} />
 
+                <FAB
+                  icon="refresh"
+                  onPress={handleRefetchMarkers}
+                  style={{ position: 'absolute', margin: 16, right: 5, bottom: 75, backgroundColor: theme.colors.primaryContainer }}
+                />
+
+                <FAB
+                  icon={`${isNotCentered ? 'navigation-variant-outline' : 'navigation-variant'}`}
+                  onPress={recenterMap}
+                  style={{ position: 'absolute', margin: 16, right: 5, bottom: 5, backgroundColor: theme.colors.primaryContainer }}
+                />
+
                 {addReportVisible && selectedLocation && (
                   <AddReport
                     reportVisible={addReportVisible}
@@ -320,18 +420,6 @@ const Home = () => {
                     setMarkers={setMarkers}
                   />
                 )}
-
-                <FAB
-                  icon="refresh"
-                  onPress={handleRefetchMarkers}
-                  style={{ position: 'absolute', margin: 16, right: 5, bottom: 75, backgroundColor: theme.colors.primaryContainer }}
-                />
-
-                <FAB
-                  icon={`${isNotCentered ? 'navigation-variant-outline' : 'navigation-variant'}`}
-                  onPress={recenterMap}
-                  style={{ position: 'absolute', margin: 16, right: 5, bottom: 5, backgroundColor: theme.colors.primaryContainer }}
-                />
               </>
             )}
           </>

@@ -20,7 +20,7 @@ const SpinningWheel = () => {
     ).start();
   }, [rotateValue]);
 
-  // Interpolate the rotation value to degrees
+  // Interpolate rotation value
   const rotateInterpolate = rotateValue.interpolate({
     inputRange: [0, 1],
     outputRange: ['0deg', '360deg'], // Spin from 0 to 360 degrees

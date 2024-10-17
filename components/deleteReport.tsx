@@ -28,6 +28,15 @@ const DeleteReport = ({ deleteReportVisible, hideDeleteReport, hideViewReport, r
 
   const [isDeleting, setDeleting] = useState(false);
 
+  /**
+   * handleDeleteReport
+   * - Function to delete a report
+   * - Deletes the report from the reports collection
+   * - Deletes the report from the user's reports collection
+   * - Deletes the associated image from Firebase Storage
+   * - Deletes the marker if it's the only report linked to it
+   * 
+   */
   const handleDeleteReport = async () => {
     try {
       setDeleting(true);

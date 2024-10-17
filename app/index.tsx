@@ -13,7 +13,14 @@ export default function App() {
   
   useEffect(() => {
 
-    const redirectUser = () => {
+    /**
+     * redirectUser
+     * - Function to redirect user to home or sign-in screen
+     * - Redirects user to home screen if user is signed in
+     * - Redirects user to sign-in screen if user is not signed in
+     * 
+     */
+    const redirectUser = () => { // redirect user to home or sign-in screen
       setTimeout(() => {
         auth().onAuthStateChanged((user) => {
           if (user) {
@@ -25,7 +32,14 @@ export default function App() {
       }, 2000);
     }
 
-    const getPermissions = async () => {
+    /**
+     * getPermissions
+     * - Function to get location and photos permissions
+     * - Requests location and photos permissions
+     * - Calls redirectUser function if permissions are granted
+     * 
+     */
+    const getPermissions = async () => { // get location and photos permissions
       const { status: cameraStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
       const { status: locationStatus } = await Location.requestForegroundPermissionsAsync();
 

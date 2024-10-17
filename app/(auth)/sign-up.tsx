@@ -17,19 +17,27 @@ const SignUp = () => {
     confirmPassword: "",
   });
 
+  const [isSubmitting, setSubmitting] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPaswordVisible, setConfirmPasswordVisible] = useState(false);
-  const [isSubmitting, setSubmitting] = useState(false);
+  
+  const theme = useTheme();
   const colorScheme = useColorScheme();
   const bikeLogo = colorScheme === "light" ? bikeLogoLight : bikeLogoDark;
 
-  const theme = useTheme();
-
+  /**
+   * handleSignUp
+   * - Function to handle user sign up
+   * - Signs up user using Firebase Auth
+   * - Saves user details to Firestore
+   * - Sends email verification to user
+   * - Navigates to sign in page if successful
+   * 
+   */
   const handleSignUp = async () => {
-
     setSubmitting(true);
 
-    if (
+    if ( // check if any field is empty
       form.firstName === "" ||
       form.lastName === "" ||
       form.email === "" ||
@@ -42,15 +50,15 @@ const SignUp = () => {
       );
       setSubmitting(false);
       return;
-    } else if (!form.email.includes("@") || !form.email.includes(".")) {
+    } else if (!form.email.includes("@") || !form.email.includes(".")) { // check if email is valid
       Alert.alert("Error", "Invalid email address");
       setSubmitting(false);
       return;
-    } else if (form.password.length < 6) {
+    } else if (form.password.length < 6) { // check if password is at least 6 characters
       Alert.alert("Error", "Password must be at least 6 characters");
       setSubmitting(false);
       return;
-    } else if (form.password !== form.confirmPassword) {
+    } else if (form.password !== form.confirmPassword) { // check if passwords match
       Alert.alert("Error", "Passwords do not match");
       setSubmitting(false);
       return;
@@ -58,7 +66,7 @@ const SignUp = () => {
 
     try {
       await auth()
-        .createUserWithEmailAndPassword(form.email, form.password)
+        .createUserWithEmailAndPassword(form.email, form.password) // create user
         .then((response) => {
           // send email verification
           auth().currentUser?.sendEmailVerification();

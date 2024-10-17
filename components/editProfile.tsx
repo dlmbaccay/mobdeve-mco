@@ -25,6 +25,13 @@ const EditProfile = ({ editProfileVisible, hideEditProfile, user }: EditProfileP
   const [newAvatarUrl, setNewAvatarUrl] = useState(user.avatarUrl);
   const theme = useTheme();
 
+  /**
+   * handleChangeAvatar
+   * - Function to change the user's avatar
+   * - Uses ImagePicker to select an image from the device's gallery
+   * - Sets the newAvatarUrl state to the selected image
+   * 
+   */
   const handleChangeAvatar = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -37,6 +44,15 @@ const EditProfile = ({ editProfileVisible, hideEditProfile, user }: EditProfileP
     }
   }
 
+  /**
+   * uploadAvatar
+   * - Function to upload the user's new avatar to Firebase Storage
+   * - Uploads the avatar to the avatars collection in Firebase Storage
+   * - Returns the download URL of the uploaded avatar
+   * 
+   * @param userId - the user's ID
+   * @returns the download URL of the uploaded avatar
+   */
   const uploadAvatar = async (userId: string): Promise<string | null> => {
     if (!newAvatarUrl) return null;
 
@@ -52,6 +68,13 @@ const EditProfile = ({ editProfileVisible, hideEditProfile, user }: EditProfileP
     }
   }
 
+  /**
+   * handleEditProfile
+   * - Function to edit the user's profile
+   * - Updates the user's first name, last name, and avatar URL
+   * - Uploads the new avatar if it has changed
+   * 
+   */
   const handleEditProfile = async () => {
     setEditing(true);
 

@@ -9,19 +9,31 @@ import { router } from "expo-router";
 import auth from "@react-native-firebase/auth";
 
 const SignIn = () => {
+
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
 
-  const [passwordVisible, setPasswordVisible] = useState(false);
   const [isSubmitting, setSubmitting] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const [forgotVisible, setForgotVisible] = useState(false);
+  
   const theme = useTheme();
-  const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme(); 
   const bikeLogo = colorScheme === "light" ? bikeLogoLight : bikeLogoDark;
 
-  const handleSignIn = () => {
+  /**
+   * handleSignIn
+   * - Function to handle user sign in
+   * - Signs in user using Firebase Auth
+   * - Checks if email is verified
+   * - Navigates to home screen if successful
+   * 
+   */
+  const handleSignIn = async () => {
+    setSubmitting(true);
+
     if (form.email === "" || form.password === "") {
       setSubmitting(true);
 
@@ -34,12 +46,12 @@ const SignIn = () => {
       return;
     }
 
-    setSubmitting(true);
-
-    auth()
-    .signInWithEmailAndPassword(form.email, form.password)
+    await auth()
+    .signInWithEmailAndPassword(form.email, form.password) // sign in user
     .then(() => {
-      if (!auth().currentUser?.emailVerified) {
+      if (!auth().currentUser?.emailVerified) { // check if email is verified
+        
+        // if not, send email verification
         Alert.alert(
           "Verify your email first",
           "An email verification has been sent to your email address. Please verify your email to continue"
@@ -47,19 +59,19 @@ const SignIn = () => {
 
         setSubmitting(false);
         return;
-      } else {
+      } else { // else, navigate to home screen
         setSubmitting(false);
         ToastAndroid.show("You're logged in!", ToastAndroid.SHORT);
         router.push("home");
       }
     })
     .catch((error) => {
-      if (error.code === "auth/user-not-found") {
+      if (error.code === "auth/user-not-found") { // check if user is not found
         Alert.alert(
           "User not found",
           "User not found. Please check your email address and try again",
         );
-      } else if (
+      } else if ( // invalid credentials validation
         error.code === "auth/invalid-password" ||
         error.code === "auth/invalid-email" || error.code === "auth/invalid-credential"
       ) {
@@ -109,7 +121,6 @@ const SignIn = () => {
             onChangeText={(e: string) => setForm({ ...form, password: e })}
             style={{ backgroundColor: theme.colors.surface }}
           />
-
 
           <TouchableOpacity
             className="w-[90%] mt-6"

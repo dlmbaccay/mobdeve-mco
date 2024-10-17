@@ -14,7 +14,13 @@ const ForgotPassword = ({ forgotVisible, hideForgotModal }: ForgotPasswordProps)
   const [isSubmitting, setSubmitting] = useState(false);
   const theme = useTheme();
 
-  const handleForgotPassword = () => {
+  /**
+   * handleForgotPassword
+   * - Function to send a password reset email
+   * - Sends a password reset email to the provided email address
+   * - Only sends an email if the email address is valid
+   */
+  const handleForgotPassword = async () => {
     if (email === "") {
       Alert.alert("Form Error!", "Please fill in the email address field");
       return;
@@ -25,7 +31,7 @@ const ForgotPassword = ({ forgotVisible, hideForgotModal }: ForgotPasswordProps)
 
     setSubmitting(true);
 
-    auth()
+    await auth()
       .sendPasswordResetEmail(email)
       .then(() => {
         ToastAndroid.show("Password reset email sent", ToastAndroid.SHORT);

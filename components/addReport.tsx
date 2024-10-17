@@ -21,20 +21,34 @@ interface AddReportProps {
 }
 
 const AddReport = ({ reportVisible, hideReport, hideViewReport, slideAnimation, markerId, latitude, longitude, setMarkers, isNewMarker }: AddReportProps) => {
+  
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  
   const [isFilled, setIsFilled] = useState(false);
+  const [isSubmitting, setSubmitting] = useState(false);
+  
   const [image, setImage] = useState<string | null>(null);
   const [isImageFullscreen, setImageFullscreen] = useState(false);
-  const [isSubmitting, setSubmitting] = useState(false);
-  const { bottom } = useSafeAreaInsets();
+  
   const [cameraVisible, setCameraVisible] = useState(false);
+  
   const theme = useTheme();
+  const { bottom } = useSafeAreaInsets();
 
+  // Check if title is empty
   useEffect(() => {
     setIsFilled(title === "");
   }, [title]);
 
+  /**
+   * pickImage
+   * - Function to pick an image from the device's gallery
+   * - Uses ImagePicker to select an image
+   * - Sets the image state to the selected image
+   * - Different from CameraModal which uses the device's camera
+   * 
+   */
   const pickImage = async () => {
     try {
       const pickerResult = await ImagePicker.launchImageLibraryAsync({
@@ -52,6 +66,15 @@ const AddReport = ({ reportVisible, hideReport, hideViewReport, slideAnimation, 
     }
   };
 
+  /**
+   * uploadImage
+   * - Function to upload the image to Firebase Storage
+   * - Uploads the image to the reports folder with the reportId as the filename
+   * - Returns the download URL of the uploaded image
+   * 
+   * @param reportId - the reportId to use as the filename within Firebase Storage
+   * @returns string | null
+   */
   const uploadImage = async (reportId: string): Promise<string | null> => {
     if (!image) return null;
 
@@ -65,13 +88,24 @@ const AddReport = ({ reportVisible, hideReport, hideViewReport, slideAnimation, 
     }
   };
 
+  /**
+   * handleSubmit
+   * - Function to handle the submission of the report
+   * - Creates a new report document
+   * - If it's a new marker, creates a new marker document
+   * - If it's an existing marker, updates the lastCreatedReportAt field of the marker
+   * - Uploads the image to Firebase Storage (if image is selected)
+   * - Adds the report to the user's reports array 
+   * 
+   * @returns 
+   */
   const handleSubmit = async () => {
+    setSubmitting(true);
+
     if (!title.trim()) {
       Alert.alert("Please enter a condition title");
       return;
     }
-
-    setSubmitting(true);
 
     try {
       const user = auth().currentUser;
@@ -95,8 +129,7 @@ const AddReport = ({ reportVisible, hideReport, hideViewReport, slideAnimation, 
       const reportRef = firestore().collection("reports").doc();
       const imageUrl = await uploadImage(reportRef.id);
 
-      if (isNewMarker) {
-        // If it's a new marker, create the marker first
+      if (isNewMarker) { // If it's a new marker, create the marker first
         const markerRef = firestore().collection("markers").doc();
 
         await markerRef.set({
@@ -126,9 +159,7 @@ const AddReport = ({ reportVisible, hideReport, hideViewReport, slideAnimation, 
           { markerId: markerRef.id, latitude, longitude },
         ]);
 
-      } else {
-        // If adding a report to an existing marker
-
+      } else { // If adding a report to an existing marker
         await firestore().collection("markers").doc(markerId).update({
           lastCreatedReportAt: firestore.FieldValue.serverTimestamp(),
         });
@@ -165,6 +196,12 @@ const AddReport = ({ reportVisible, hideReport, hideViewReport, slideAnimation, 
     }
   };
 
+  /**
+   * resetForm
+   * - Function to reset the form fields
+   * - Resets the title, description, and image states
+   * 
+   */
   const resetForm = () => {
     setTitle("");
     setDescription("");

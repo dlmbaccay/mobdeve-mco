@@ -38,10 +38,26 @@ const ViewReport = ({ reportVisible, hideViewReport, reportsData, setMarkers }: 
   const [deleteReportVisible, setDeleteReportVisible] = useState(false);
   const [selectedReport, setSelectedReport] = useState<ReportType | null>(null);
 
+  /**
+   * handleAccordionPress
+   * - Function to handle the accordion press, if marker has multiple reports
+   * 
+   * @param index - index of the report
+   */
   const handleAccordionPress = (index: number) => {    
     setExpandedIndex(expandedIndex === index ? null : index);
   };
 
+  /**
+   * renderReportDetails
+   * - Function to render the report details
+   * - A report can have a title, description, image, and user details
+   * - If the report is created by the current user, they can edit or delete the report
+   * - If the report has an image, it can be viewed in fullscreen
+   * - Timestamp is converted to a readable format
+   * 
+   * @param report - report data
+   */
   const renderReportDetails = (report: ReportType) => (
     <View className="px-4 w-full">
       <View className="flex flex-row items-center justify-between mb-2">
@@ -102,6 +118,12 @@ const ViewReport = ({ reportVisible, hideViewReport, reportsData, setMarkers }: 
     </View>
   );
 
+  /**
+   * convertTimestamp
+   * - Function to convert the timestamp to a readable format
+   * 
+   * @param createdAt - timestamp of the report
+   */
   const convertTimestamp = (createdAt: number) => {
     const now = Date.now();
     const diffInSeconds = Math.floor((now - createdAt) / 1000);
