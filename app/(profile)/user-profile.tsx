@@ -6,6 +6,7 @@ import { Modal, Button, IconButton, Avatar, Text, useTheme } from "react-native-
 import { View, Image, TouchableOpacity } from "react-native";
 import { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import EditProfile from '../../components/editProfile';
 
 
 interface User {
@@ -25,6 +26,7 @@ const UserProfile = () => {
   });
 
   const [isImageFullscreen, setImageFullscreen] = useState(false);
+  const [editModalVisible, setEditModalVisible] = useState(false);
 
   // retrieve auth user data
   useEffect(() => {
@@ -67,11 +69,19 @@ const UserProfile = () => {
         <View className='flex flex-row items-center justify-center mb-8'>
           <Text className='text-base'>{user.email}</Text>
         </View>
-
-        
+      
+        <Button mode="contained" className="rounded-md" onPress={() => setEditModalVisible(true)} style={{ backgroundColor: theme.colors.primaryContainer }}>
+          <Text className='font-bold'>Edit Profile</Text>
+        </Button>
       </View>
 
-     
+      { editModalVisible ? (
+        <EditProfile
+          editProfileVisible={editModalVisible}
+          hideEditProfile={() => setEditModalVisible(false)}
+          user={user}
+        />
+      ) : null }
 
       <Modal visible={isImageFullscreen} onDismiss={() => setImageFullscreen(false)}>
         <TouchableOpacity onPress={() => setImageFullscreen(false)}>
