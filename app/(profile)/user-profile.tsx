@@ -70,8 +70,8 @@ const UserProfile = () => {
           <Text className='text-base'>{user.email}</Text>
         </View>
       
-        <Button mode="contained" className="rounded-md" onPress={() => setEditModalVisible(true)} style={{ backgroundColor: theme.colors.primaryContainer }}>
-          <Text className='font-bold'>Edit Profile</Text>
+        <Button mode="contained" className="rounded-md" onPress={() => setEditModalVisible(true)} style={{ backgroundColor: theme.colors.primary }}>
+          <Text className='font-bold' style={{ color: theme.colors.onPrimary }}>Edit Profile</Text>
         </Button>
       </View>
 

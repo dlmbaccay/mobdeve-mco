@@ -10,35 +10,35 @@ import SpinningWheel from "../components/spinningWheel";
 
 export default function App() {
   const theme = useTheme();
+  
+  useEffect(() => {
 
-    useEffect(() => {
+    const redirectUser = () => {
+      setTimeout(() => {
+        auth().onAuthStateChanged((user) => {
+          if (user) {
+            router.push("home");
+          } else {
+            router.push("sign-in");
+          }
+        });
+      }, 2000);
+    }
 
-      const redirectUser = () => {
-        setTimeout(() => {
-          auth().onAuthStateChanged((user) => {
-            if (user) {
-              router.push("home");
-            } else {
-              router.push("sign-in");
-            }
-          });
-        }, 2000);
+    const getPermissions = async () => {
+      const { status: cameraStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      const { status: locationStatus } = await Location.requestForegroundPermissionsAsync();
+
+      if (cameraStatus !== "granted" || locationStatus !== "granted") {
+        Alert.alert("Permissions Error", "You need to grant location and photos permissions to use this app");
+        return;
+      } else {
+        redirectUser();
       }
+    }
 
-      const getPermissions = async () => {
-        const { status: cameraStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        const { status: locationStatus } = await Location.requestForegroundPermissionsAsync();
-
-        if (cameraStatus !== "granted" || locationStatus !== "granted") {
-          Alert.alert("Permissions Error", "You need to grant location and photos permissions to use this app");
-          return;
-        } else {
-          redirectUser();
-        }
-      }
-
-      getPermissions();
-    }, []);
+    getPermissions();
+  }, []);
 
   return (
     <SafeAreaView className="h-full w-full" style={{ backgroundColor: theme.colors.background }}>

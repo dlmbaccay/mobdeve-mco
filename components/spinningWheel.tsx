@@ -1,9 +1,14 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, View } from 'react-native';
-import wheel from '../assets/images/wheel.png';
+import { Animated, View, useColorScheme } from 'react-native';
+import lightWheel from '../assets/images/wheel-light.png';
+import darkWheel from '../assets/images/wheel-dark.png';
 
 const SpinningWheel = () => {
   const rotateValue = useRef(new Animated.Value(0)).current;
+
+  const colorScheme = useColorScheme();
+
+  const wheel = colorScheme === 'light' ? lightWheel : darkWheel;
 
   useEffect(() => {
     Animated.loop(

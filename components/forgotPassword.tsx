@@ -1,4 +1,4 @@
-import { Portal, Modal, Button, TextInput, Text } from "react-native-paper";
+import { Portal, Modal, Button, TextInput, Text, useTheme } from "react-native-paper";
 import { View, Alert, ToastAndroid } from "react-native";
 import auth from "@react-native-firebase/auth";
 import { useState } from "react";
@@ -12,6 +12,7 @@ const ForgotPassword = ({ forgotVisible, hideForgotModal }: ForgotPasswordProps)
 
   const [email, setEmail] = useState("");
   const [isSubmitting, setSubmitting] = useState(false);
+  const theme = useTheme();
 
   const handleForgotPassword = () => {
     if (email === "") {
@@ -48,7 +49,7 @@ const ForgotPassword = ({ forgotVisible, hideForgotModal }: ForgotPasswordProps)
         visible={forgotVisible}
         onDismiss={hideForgotModal}
         contentContainerStyle={{
-          backgroundColor: "white",
+          backgroundColor: theme.colors.background,
           padding: 20,
           margin: 20,
           borderRadius: 10,
@@ -64,10 +65,11 @@ const ForgotPassword = ({ forgotVisible, hideForgotModal }: ForgotPasswordProps)
             onChangeText={(text) => setEmail(text)}
             label="Email Address"
             className="w-full"
+            style={{ backgroundColor: theme.colors.surface }}
           />
 
-          <Button mode="contained" compact={true} onPress={handleForgotPassword} className={`${isSubmitting ? "opacity-50" : "opacity-100"} mt-4 h-12 flex flex-col items-center justify-center font-semibold px-2 rounded-md w-full`} disabled={isSubmitting}>
-              Reset Password
+          <Button mode="contained" compact={true} onPress={handleForgotPassword} className={`${isSubmitting ? "opacity-50" : "opacity-100"} mt-4 h-12 flex flex-col items-center justify-center font-semibold px-2 rounded-md w-full`} disabled={isSubmitting} style={{ backgroundColor: theme.colors.primary }}>
+              <Text style={{ color: theme.colors.onPrimary, fontWeight: "bold" }}>Reset Password</Text>
           </Button>
         </View>
       </Modal>

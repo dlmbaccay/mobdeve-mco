@@ -8,7 +8,7 @@ const appConfig = {
     version: "1.0.0",
     orientation: "portrait",
     icon: "./assets/images/bike-logo.png",
-    userInterfaceStyle: "light",
+    userInterfaceStyle: "automatic",
     splash: {
       image: "./assets/splash.png",
       resizeMode: "contain",
@@ -27,6 +27,10 @@ const appConfig = {
           apiKey: process.env.GOOGLE_MAPS_API_KEY,
         },
       },
+      permissions: [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ],
       adaptiveIcon: {
         foregroundImage: "./assets/images/bike-logo.png",
         backgroundColor: "#ffffff",

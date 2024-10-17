@@ -1,9 +1,10 @@
-import { View, ScrollView, Image, TouchableOpacity, Alert } from "react-native";
+import { View, ScrollView, Image, TouchableOpacity, Alert, useColorScheme } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button, TextInput, Text, useTheme } from "react-native-paper";
 import { router } from "expo-router";
-import bikeLogo from "../../assets/images/bike-logo.png";
+import bikeLogoLight from "../../assets/images/bike-logo-light.png";
+import bikeLogoDark from "../../assets/images/bike-logo-dark.png";
 import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
 
@@ -19,6 +20,8 @@ const SignUp = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPaswordVisible, setConfirmPasswordVisible] = useState(false);
   const [isSubmitting, setSubmitting] = useState(false);
+  const colorScheme = useColorScheme();
+  const bikeLogo = colorScheme === "light" ? bikeLogoLight : bikeLogoDark;
 
   const theme = useTheme();
 
@@ -97,10 +100,10 @@ const SignUp = () => {
     <SafeAreaView className="h-full w-full" style={{ backgroundColor: theme.colors.background }}>
       <ScrollView contentContainerStyle={{ alignContent: "center", justifyContent: "center", height: "100%" }}>
         <View className="w-full flex flex-row items-center justify-center">
-          <Image source={bikeLogo} className="w-28 h-28" resizeMode="contain" />
+          <Image source={bikeLogo} className="w-[150px] h-[150px]" resizeMode="contain" />
         </View>
 
-        <View className="flex flex-col items-center justify-center w-full mt-4">
+        <View className="flex flex-col items-center justify-center w-full">
           <TextInput
             value={form.firstName}
             mode="outlined"
@@ -167,10 +170,10 @@ const SignUp = () => {
             className={`${isSubmitting ? "opacity-50" : "opacity-100"} w-[90%] h-14 flex items-center justify-center rounded-md mt-8`}
             style={{ backgroundColor: theme.colors.primary }}
           >
-            <Text className="text-white text-lg font-bold">Sign Up</Text>
+            <Text className="text-lg" style={{ color: theme.colors.onPrimary, fontWeight: "bold" }}>Sign Up</Text>
           </Button>
 
-          <View className="mt-4 mb-6 w-full flex flex-row items-center justify-center">
+          <View className="mt-4 mb-14 w-full flex flex-row items-center justify-center">
             <Text className="w-fit text-sm">Already have an account?</Text>
             <TouchableOpacity
               onPress={() => router.push("sign-in")}

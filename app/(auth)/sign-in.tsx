@@ -1,8 +1,9 @@
-import { View, Image, TouchableOpacity, Alert, ToastAndroid } from "react-native";
+import { View, Image, TouchableOpacity, Alert, ToastAndroid, useColorScheme } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button, TextInput, Text, useTheme } from "react-native-paper";
-import bikeLogo from "../../assets/images/bike-logo.png";
+import bikeLogoLight from "../../assets/images/bike-logo-light.png";
+import bikeLogoDark from "../../assets/images/bike-logo-dark.png";
 import ForgotPassword from "../../components/forgotPassword";
 import { router } from "expo-router";
 import auth from "@react-native-firebase/auth";
@@ -17,6 +18,8 @@ const SignIn = () => {
   const [isSubmitting, setSubmitting] = useState(false);
   const [forgotVisible, setForgotVisible] = useState(false);
   const theme = useTheme();
+  const colorScheme = useColorScheme();
+  const bikeLogo = colorScheme === "light" ? bikeLogoLight : bikeLogoDark;
 
   const handleSignIn = () => {
     if (form.email === "" || form.password === "") {
@@ -78,15 +81,15 @@ const SignIn = () => {
     <SafeAreaView className="h-full w-full" style={{ backgroundColor: theme.colors.background }}>
       <View className="h-full flex items-center justify-center">
         <View className="w-full flex flex-row items-center justify-center">
-          <Image source={bikeLogo} className="w-28 h-28" resizeMode="contain" />
+          <Image source={bikeLogo} className="w-[150px] h-[150px]" resizeMode="contain" />
         </View>
 
-        <View className="flex flex-col items-center justify-center w-full mt-6">
+        <View className="flex flex-col items-center justify-center w-full">
           <TextInput
             value={form.email}
             mode="outlined"
             label="Email Address"
-            className="h-14 w-[90%] mt-6"
+            className="h-14 w-[90%] mt-4"
             onChangeText={(e: string) => setForm({ ...form, email: e })}
             style={{ backgroundColor: theme.colors.surface }}
           />
@@ -131,7 +134,7 @@ const SignIn = () => {
             className={`${isSubmitting ? "opacity-50" : "opacity-100"} w-[90%] h-14 flex items-center justify-center rounded-md mt-6`}
             style={{ backgroundColor: theme.colors.primary }}
           >
-            <Text className="text-white text-lg font-bold">Login</Text>
+            <Text className="text-lg" style={{ color: theme.colors.onPrimary, fontWeight: "bold" }}>Login</Text>
           </Button>
 
           <View className="mt-4 mb-6 w-full flex flex-row items-center justify-center">
