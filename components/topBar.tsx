@@ -2,13 +2,7 @@ import React, { useState } from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 import { Card, Searchbar, Avatar, useTheme, List, Button, Icon, Divider } from 'react-native-paper';
 import { router } from "expo-router";
-
-interface User {
-  firstName: string;
-  lastName: string;
-  email: string;
-  avatarUrl: string;
-}
+import { User } from "../types/interfaces";
 
 interface TopBarProps {
   user: User;

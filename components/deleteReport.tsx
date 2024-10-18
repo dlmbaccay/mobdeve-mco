@@ -3,24 +3,13 @@ import { ToastAndroid } from "react-native";
 import { Text, Portal, Button, Dialog } from "react-native-paper";
 import firestore from "@react-native-firebase/firestore";
 import storage from "@react-native-firebase/storage";
+import { ReportType } from "../types/interfaces";
 
 interface DeleteReportProps {
   deleteReportVisible: boolean;
   hideDeleteReport: () => void;
   hideViewReport: () => void;
-  reportData: {
-    markerId: string;
-    reportId: string;
-    title: string;
-    description: string;
-    latitude: number;
-    longitude: number;
-    createdAt: any;
-    userId: string;
-    firstName: string;
-    lastName: string;
-    imageUrl: string;
-  } | null;
+  reportData : ReportType | null;
   setMarkers: (markers: (prevMarkers: any[]) => any[]) => void;
 }
 

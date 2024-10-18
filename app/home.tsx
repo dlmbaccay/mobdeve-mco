@@ -11,41 +11,7 @@ import SpinningWheel from "../components/spinningWheel";
 import AddReport from "../components/addReport";
 import ViewReport from "../components/viewReport";
 import TopBar from "../components/topBar";
-
-interface LocationType {
-  latitude: number;
-  longitude: number;
-  latitudeDelta: number;
-  longitudeDelta: number;
-};
-
-interface ReportType {
-  markerId: string;
-  reportId: string;
-  title: string;
-  description: string;
-  latitude: number;
-  longitude: number;
-  createdAt: any;
-  userId: string;
-  firstName: string;
-  lastName: string;
-  imageUrl: string;
-}
-
-interface MarkerType {
-  markerId: string;
-  latitude: number;
-  longitude: number;
-  lastCreatedReportAt: any;
-}
-
-interface User {
-  firstName: string;
-  lastName: string;
-  email: string;
-  avatarUrl: string;
-}
+import { MarkerType, ReportType, LocationType, User } from "../types/interfaces";
 
 const Home = () => {
 
@@ -290,15 +256,25 @@ const Home = () => {
    * fetchMarkerReports
    * - Called by handleViewMarkerPress to fetch reports for a marker passed as an argument
    * - Fetches reports for a marker
+   * - Only fetches reports created within the last 24 hours
    * - Stores fetched reports in state
    * 
    * @param markerId - marker ID
    */
   const fetchMarkerReports = async (markerId: string) => {
     try {
-      const snapshot = await firestore().collection('reports').where('markerId', '==', markerId).get();
+      const dateNow = new Date();
+      const twentyFourHoursAgo = new Date(dateNow.getTime() - 24 * 60 * 60 * 1000);
+
+      // fetch reports created within the last 24 hours for the marker
+      const snapshot = await firestore()
+        .collection("reports")
+        .where("markerId", "==", markerId)
+        .where("createdAt", ">=", twentyFourHoursAgo)
+        .get();
+
       const fetchedReports = snapshot.docs.map(doc => ({
-        markerId: markerId,
+        markerId: doc.data().markerId,
         reportId: doc.id,
         title: doc.data().title,
         description: doc.data().description,

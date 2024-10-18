@@ -3,24 +3,13 @@ import { View, ToastAndroid, TouchableOpacity, Image } from "react-native";
 import { Modal, Portal, Text, Button, Divider, Appbar, IconButton, TextInput, useTheme } from "react-native-paper";
 import firestore from "@react-native-firebase/firestore";
 import storage from "@react-native-firebase/storage";
+import { ReportType } from "../types/interfaces";
 
 interface EditReportProps {
   editReportVisible: boolean;
   hideEditReport: () => void;
   hideViewReport: () => void;
-  reportData: {
-    markerId: string;
-    reportId: string;
-    title: string;
-    description: string;
-    latitude: number;
-    longitude: number;
-    createdAt: any;
-    userId: string;
-    firstName: string;
-    lastName: string;
-    imageUrl: string;
-  } | null;
+  reportData: ReportType | null;
 }
 
 const EditReport = ({ editReportVisible, hideEditReport, hideViewReport, reportData }: EditReportProps) => {

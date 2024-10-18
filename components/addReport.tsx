@@ -1,4 +1,4 @@
-import { Portal, Modal, Text, Button, TextInput, IconButton, Appbar, Divider, useTheme } from "react-native-paper";
+import { Portal, Modal, Text, Button, TextInput, IconButton, ActivityIndicator, Appbar, Divider, useTheme } from "react-native-paper";
 import { Animated, View, Alert, ToastAndroid, Image, TouchableOpacity } from "react-native";
 import { useState, useEffect } from "react";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -221,7 +221,13 @@ const AddReport = ({ reportVisible, hideReport, hideViewReport, slideAnimation, 
           <View className="mt-4 w-full flex flex-row items-center justify-between">
             <IconButton icon="close" onPress={hideReport} size={28} style={{ margin: 0 }} />
             <Text className="font-bold text-lg">Create Report</Text>
-            <IconButton icon="send" onPress={handleSubmit} size={28} style={{ margin: 0 }} disabled={isFilled || isSubmitting} iconColor={theme.colors.primary} />
+
+            { isSubmitting ? (
+              <ActivityIndicator animating={true} color={theme.colors.primary} size={28} className="pr-4" />
+            ) : (
+              <IconButton icon="send" onPress={handleSubmit} size={28} style={{ margin: 0 }} disabled={isFilled || isSubmitting} iconColor={theme.colors.primary} />
+            )}
+
           </View>
 
           <TextInput

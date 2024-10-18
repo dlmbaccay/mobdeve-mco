@@ -5,26 +5,13 @@ import auth from "@react-native-firebase/auth";
 import AddReport from "./addReport";
 import DeleteReport from "./deleteReport";
 import EditReport from "./editReport";
+import { ReportType } from "../types/interfaces";
 
 interface ViewReportProps {
   reportVisible: boolean;
   hideViewReport: () => void;
   reportsData: any;
   setMarkers: (markers: (prevMarkers: any[]) => any[]) => void;
-}
-
-interface ReportType {
-  markerId: string;
-  reportId: string;
-  title: string;
-  description: string;
-  latitude: number;
-  longitude: number;
-  createdAt: any;
-  userId: string;
-  firstName: string;
-  lastName: string;
-  imageUrl: string;
 }
 
 const ViewReport = ({ reportVisible, hideViewReport, reportsData, setMarkers }: ViewReportProps) => {
@@ -100,9 +87,7 @@ const ViewReport = ({ reportVisible, hideViewReport, reportsData, setMarkers }: 
       </View>
 
       {report.description ? (
-        <>
-          <Text className="text-s mb-2">{report.description}</Text>
-        </>
+        <Text className="text-s mb-2">{report.description}</Text>
       ) : null}
 
       {report.imageUrl ? (
@@ -156,7 +141,7 @@ const ViewReport = ({ reportVisible, hideViewReport, reportsData, setMarkers }: 
           }}
         >
           {reportsData.length === 1 ? (
-            <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: "space-between", minHeight: "60%" }} className="px-4 mt-3"
+            <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: "space-between", }} className="px-4 mt-3"
             >
               <View>
                 <Text className="text-lg font-bold px-4 mb-1">{reportsData[0]?.title}</Text>
