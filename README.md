@@ -1,16 +1,18 @@
-# Bike Safe
+# BikeSafe
 
 ### MOBDEVE Android Application Project
 
 ### Description
-Bike App is a mobile application designed for cyclists to easily report various road conditions, such as traffic congestion, road hazards, or construction areas. By mapping these incidents, cyclists can share valuable information with the community, helping to improve safety and navigation for all road users.
+BikeSafe is a mobile application designed for cyclists to easily report various road conditions, such as traffic congestion, road hazards, or construction areas. By mapping these incidents, cyclists can share valuable information with the community, helping to improve safety and navigation for all road users.
 
 
 ### Github Repository:
-https://github.com/dlmbaccay/mobdeve-mco
+https://github.com/dlmbaccay/BikeSafe
 
 ### APK (Preview Build):
-[mobdeve-mco2-bike-app.apk]()
+- Download through [Google Drive](https://drive.google.com/file/d/16jlxontF0gbg68X8fhpXF4AKGp4T6pQh/view?usp=sharing)
+- Through [GitHub](https://github.com/dlmbaccay/BikeSafe/tree/main/build) or access through /build folder in the repository
+
 
 ### Technologies Used:
 - React Native (Expo)
