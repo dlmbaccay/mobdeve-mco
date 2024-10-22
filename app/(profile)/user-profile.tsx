@@ -55,25 +55,28 @@ const UserProfile = () => {
         <IconButton icon="arrow-left" size={25} onPress={() => router.push("home")} />
       </View>
 
-      <View className='h-[80%] w-full flex items-center justify-center'>
-        { user.avatarUrl ? (
-          <TouchableOpacity onPress={() => setImageFullscreen(true)} className='mb-8'>
-            <Avatar.Image size={150} source={{ uri: user.avatarUrl }} />
-          </TouchableOpacity>
-        ) : null }
+      { user ? (
+        <View className='h-[80%] w-full flex items-center justify-center'>
+          { user.avatarUrl ? (
+            <TouchableOpacity onPress={() => setImageFullscreen(true)} className='mb-8'>
+              <Avatar.Image size={150} source={{ uri: user.avatarUrl }} />
+            </TouchableOpacity>
+          ) : null }
 
-        <View className='flex flex-row items-center justify-center w-full mb-8'>
-          <Text className='text-2xl font-bold'>{user.firstName} {user.lastName}</Text>
-        </View>
+          <View className='flex flex-row items-center justify-center w-full mb-8'>
+            <Text className='text-2xl font-bold'>{user.firstName} {user.lastName}</Text>
+          </View>
 
-        <View className='flex flex-row items-center justify-center mb-8'>
-          <Text className='text-base'>{user.email}</Text>
+        
+          <View className='flex flex-row items-center justify-center mb-8'>
+            <Text className='text-base'>{user.email}</Text>
+          </View>
+    
+          <Button mode="contained" className="rounded-md" onPress={() => setEditModalVisible(true)} style={{ backgroundColor: theme.colors.primary }}>
+            <Text className='font-bold' style={{ color: theme.colors.onPrimary }}>Edit Profile</Text>
+          </Button>
         </View>
-      
-        <Button mode="contained" className="rounded-md" onPress={() => setEditModalVisible(true)} style={{ backgroundColor: theme.colors.primary }}>
-          <Text className='font-bold' style={{ color: theme.colors.onPrimary }}>Edit Profile</Text>
-        </Button>
-      </View>
+      ) : null }
 
       { editModalVisible ? (
         <EditProfile
