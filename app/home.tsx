@@ -333,7 +333,7 @@ const Home = () => {
           <SpinningWheel />
         ) : (
           <>
-            { location && ( 
+            { location && user && ( 
               <>
                 <MapView
                   ref={(map) => setMapRef(map)}

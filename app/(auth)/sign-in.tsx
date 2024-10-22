@@ -91,8 +91,13 @@ const SignIn = () => {
   return (
     <SafeAreaView className="h-full w-full" style={{ backgroundColor: theme.colors.background }}>
       <View className="h-full flex items-center justify-center">
+        
         <View className="w-full flex flex-row items-center justify-center">
-          <Image source={bikeLogo} className="w-[150px] h-[150px]" resizeMode="contain" />
+          <Image source={bikeLogo} className="w-[60px] h-[60px]" resizeMode="contain" />
+
+          <Text className="text-[55px] mt-4 pl-1" style={{ fontFamily: 'Poppins_600SemiBold' }}>
+            BikeSafe
+          </Text>
         </View>
 
         <View className="flex flex-col items-center justify-center w-full">

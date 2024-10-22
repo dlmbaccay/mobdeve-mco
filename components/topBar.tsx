@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, TouchableOpacity, Text } from "react-native";
-import { Card, Searchbar, Avatar, useTheme, List, Button, Icon, Divider } from 'react-native-paper';
+import { Card, Searchbar, Avatar, useTheme, List, Divider, ActivityIndicator } from 'react-native-paper';
 import { router } from "expo-router";
 import { User } from "../types/interfaces";
 
@@ -29,8 +29,8 @@ const TopBar = ({ user, handleSignOut }: TopBarProps) => {
               value={searchQuery}
               style={{ backgroundColor: theme.colors.primaryContainer }}
             />
-
-            { user.avatarUrl && (
+            
+            { user.avatarUrl ? (
               <TouchableOpacity onPress={() => setCardOpen(!isCardOpen)}> 
                 <Avatar.Image
                   size={50}
@@ -38,7 +38,7 @@ const TopBar = ({ user, handleSignOut }: TopBarProps) => {
                   source={{ uri: user?.avatarUrl }}
                 />
               </TouchableOpacity>
-            )}
+            ) : <ActivityIndicator animating={true} color={theme.colors.primary} size={50} /> }
           </View>
 
           { isCardOpen && (

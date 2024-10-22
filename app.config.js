@@ -42,6 +42,7 @@ const appConfig = {
     plugins: [
       "expo-router",
       "@react-native-firebase/app",
+      "expo-font",
       [
         "expo-location",
         {
