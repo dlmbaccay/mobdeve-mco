@@ -64,44 +64,43 @@ const SignUp = () => {
       return;
     }
 
-    try {
-      await auth()
-        .createUserWithEmailAndPassword(form.email, form.password) // create user
-        .then((response) => {
-          // send email verification
-          auth().currentUser?.sendEmailVerification();
+    await auth()
+    .createUserWithEmailAndPassword(form.email, form.password) // create user
+    .then((response) => {
+      // send email verification
+      auth().currentUser?.sendEmailVerification();
 
-          // save user details to firestore with default avatar URL
-          firestore().collection("users").doc(response.user.uid).set({
-            uid: response.user.uid,
-            firstName: form.firstName,
-            lastName: form.lastName,
-            email: form.email,
-            createdAt: new Date(),
-            avatarUrl:
-              "https://firebasestorage.googleapis.com/v0/b/bike-app-ca815.appspot.com/o/default-avatar-icon.png?alt=media&token=2682e441-d460-4a67-9af4-1c446e196244", // Pre-uploaded default avatar
-          });
+      // save user details to firestore with default avatar URL
+      firestore().collection("users").doc(response.user.uid).set({
+        uid: response.user.uid,
+        firstName: form.firstName,
+        lastName: form.lastName,
+        email: form.email,
+        createdAt: new Date(),
+        avatarUrl:
+          "https://firebasestorage.googleapis.com/v0/b/bike-app-ca815.appspot.com/o/default-avatar-icon.png?alt=media&token=2682e441-d460-4a67-9af4-1c446e196244", // Pre-uploaded default avatar
+      });
 
-          Alert.alert(
-            "Account Created!",
-            "Please verify your email address to login.",
-          );
-          
-          setSubmitting(false);
-          
-          // redirect to sign in page
-          router.push("sign-in");
-        })
-        .catch((error) => {
-          console.log(error);
-          Alert.alert("Error", error.message);
-          setSubmitting(false);
-        });
-    } catch (error: any) {
-      console.log(error);
-      Alert.alert("Error", error.message);
+      Alert.alert(
+        "Account Created!",
+        "Please verify your email address to login.",
+      );
+      
       setSubmitting(false);
-    }
+      
+      // redirect to sign in page
+      router.push("sign-in");
+    })
+    .catch((error) => {
+      if (error.code === "auth/email-already-in-use") { 
+        Alert.alert("Error", "Email address already in use");
+        setSubmitting(false);
+      } else {
+        console.log(error);
+        Alert.alert("Error", error.message);
+        setSubmitting(false);
+      }
+    });
   };
 
   return (
@@ -116,7 +115,7 @@ const SignUp = () => {
             value={form.firstName}
             mode="outlined"
             label="First Name"
-            className="h-14 w-[90%] mt-4"
+            className="h-14 w-[90%] mt-2"
             onChangeText={(e: string) => setForm({ ...form, firstName: e })}
             style={{ backgroundColor: theme.colors.surface }}
           />
@@ -175,10 +174,10 @@ const SignUp = () => {
             mode="contained"
             onPress={handleSignUp}
             disabled={isSubmitting}
-            className={`${isSubmitting ? "opacity-50" : "opacity-100"} w-[90%] h-14 flex items-center justify-center rounded-md mt-8`}
+            className={`${isSubmitting ? "opacity-50" : "opacity-100"} w-[90%] h-14 flex justify-center rounded-md mt-8`}
             style={{ backgroundColor: theme.colors.primary }}
           >
-            <Text className="text-lg" style={{ color: theme.colors.onPrimary, fontWeight: "bold" }}>Sign Up</Text>
+            <Text className="text-base" style={{ color: theme.colors.onPrimary, fontWeight: "bold" }}>Sign Up</Text>
           </Button>
 
           <View className="mt-4 mb-14 w-full flex flex-row items-center justify-center">

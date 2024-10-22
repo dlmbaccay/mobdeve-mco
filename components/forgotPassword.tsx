@@ -1,7 +1,9 @@
-import { Portal, Modal, Button, TextInput, Text, useTheme } from "react-native-paper";
-import { View, Alert, ToastAndroid } from "react-native";
+import { Portal, Modal, Button, IconButton, TextInput, Text, useTheme } from "react-native-paper";
+import { View, Alert, ToastAndroid, useColorScheme, Image } from "react-native";
 import auth from "@react-native-firebase/auth";
 import { useState } from "react";
+import repairLight from "../assets/images/repair-light.png";
+import repairDark from "../assets/images/repair-dark.png";
 
 interface ForgotPasswordProps {
   forgotVisible: boolean;
@@ -13,6 +15,8 @@ const ForgotPassword = ({ forgotVisible, hideForgotModal }: ForgotPasswordProps)
   const [email, setEmail] = useState("");
   const [isSubmitting, setSubmitting] = useState(false);
   const theme = useTheme();
+  const colorScheme = useColorScheme();
+  const repair = colorScheme === "light" ? repairLight : repairDark;
 
   /**
    * handleForgotPassword
@@ -46,6 +50,7 @@ const ForgotPassword = ({ forgotVisible, hideForgotModal }: ForgotPasswordProps)
       })
       .finally(() => {
         setSubmitting(false);
+        hideForgotModal();
       });
   };
 
@@ -57,11 +62,17 @@ const ForgotPassword = ({ forgotVisible, hideForgotModal }: ForgotPasswordProps)
         contentContainerStyle={{
           backgroundColor: theme.colors.background,
           padding: 20,
-          margin: 20,
-          borderRadius: 10,
         }}
       >
-        <View className="h-fit flex flex-col items-center justify-center">
+
+        <View className="h-full flex flex-col items-center justify-center pb-6">
+          <IconButton
+            icon="close"
+            onPress={hideForgotModal}
+            className="absolute top-0 left-0 p-0 m-0"
+          />
+
+          <Image source={repair} style={{ width: 125, height: 125 }} resizeMode="contain" />
           <Text className="text-lg font-bold w-full text-center">Forgot Your Password?</Text>
           <Text className="text-sm mt-2 mb-2 w-full text-center">Enter your email address to reset your password</Text>
 
@@ -70,12 +81,12 @@ const ForgotPassword = ({ forgotVisible, hideForgotModal }: ForgotPasswordProps)
             value={email}
             onChangeText={(text) => setEmail(text)}
             label="Email Address"
-            className="w-full"
+            className="w-full h-14 mt-2 text-base"
             style={{ backgroundColor: theme.colors.surface }}
           />
 
-          <Button mode="contained" compact={true} onPress={handleForgotPassword} className={`${isSubmitting ? "opacity-50" : "opacity-100"} mt-4 h-12 flex flex-col items-center justify-center font-semibold px-2 rounded-md w-full`} disabled={isSubmitting} style={{ backgroundColor: theme.colors.primary }}>
-              <Text style={{ color: theme.colors.onPrimary, fontWeight: "bold" }}>Reset Password</Text>
+          <Button mode="contained" compact={true} onPress={handleForgotPassword} className={`${isSubmitting ? "opacity-50" : "opacity-100"} mt-6 h-14 flex flex-col items-center justify-center px-2 rounded-md w-full`} disabled={isSubmitting} style={{ backgroundColor: theme.colors.primary }}>
+              <Text className="text-base" style={{ color: theme.colors.onPrimary, fontWeight: "bold" }}>Reset Password</Text>
           </Button>
         </View>
       </Modal>

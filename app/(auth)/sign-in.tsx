@@ -86,7 +86,6 @@ const SignIn = () => {
       setSubmitting(false);
       return;
     })
-    return;
   };
 
   return (
@@ -101,7 +100,7 @@ const SignIn = () => {
             value={form.email}
             mode="outlined"
             label="Email Address"
-            className="h-14 w-[90%] mt-4"
+            className="h-14 w-[90%] mt-2"
             onChangeText={(e: string) => setForm({ ...form, email: e })}
             style={{ backgroundColor: theme.colors.surface }}
           />
@@ -142,10 +141,10 @@ const SignIn = () => {
             mode="contained"
             onPress={handleSignIn}
             disabled={isSubmitting}
-            className={`${isSubmitting ? "opacity-50" : "opacity-100"} w-[90%] h-14 flex items-center justify-center rounded-md mt-6`}
+            className={`${isSubmitting ? "opacity-50" : "opacity-100"} w-[90%] h-14 flex justify-center rounded-md mt-6`}
             style={{ backgroundColor: theme.colors.primary }}
           >
-            <Text className="text-lg" style={{ color: theme.colors.onPrimary, fontWeight: "bold" }}>Login</Text>
+            <Text className="text-base" style={{ color: theme.colors.onPrimary, fontWeight: "bold" }}>Login</Text>
           </Button>
 
           <View className="mt-4 mb-6 w-full flex flex-row items-center justify-center">
