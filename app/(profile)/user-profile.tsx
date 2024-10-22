@@ -71,13 +71,13 @@ const UserProfile = () => {
                 <Text className='text-base'>{user.email}</Text>
               </View>
       
-             <View className='flex flex-row items-center justify-center'>
-              <Button mode="contained" className="rounded-md w-[120px] mr-4" onPress={(() => router.push("home"))} style={{ backgroundColor: theme.colors.primary }}>
-                <Text className='font-bold' style={{ color: theme.colors.onPrimary }}>Go Home</Text>
+             <View className='flex flex-col items-center justify-center'>
+              <Button mode="contained" className="rounded-md w-[120px] mb-4" onPress={() => setEditModalVisible(true)} style={{ backgroundColor: theme.colors.primary }}>
+                <Text className='font-bold' style={{ color: theme.colors.onPrimary }}>Edit Profile</Text>
               </Button>
 
-              <Button mode="contained" className="rounded-md w-[120px]" onPress={() => setEditModalVisible(true)} style={{ backgroundColor: theme.colors.primary }}>
-                <Text className='font-bold' style={{ color: theme.colors.onPrimary }}>Edit Profile</Text>
+              <Button mode="contained" className="rounded-md w-[120px]" onPress={(() => router.push("home"))} style={{ backgroundColor: theme.colors.primary }}>
+                <Text className='font-bold' style={{ color: theme.colors.onPrimary }}>Go Home</Text>
               </Button>
              </View>
             </View>
