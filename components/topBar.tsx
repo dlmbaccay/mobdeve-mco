@@ -18,13 +18,13 @@ const TopBar = ({ user, handleSignOut }: TopBarProps) => {
 
   return (
     <>
-      <Card className={`absolute top-0 w-[90%] h-fit my-6 p-2 rounded-3xl`} style={{ backgroundColor: theme.colors.primaryContainer }}>
+      <Card className={`absolute top-0 w-[90%] h-fit my-6 p-2 rounded-3xl ${isCardOpen ? 'pb-0' : ''}`} style={{ backgroundColor: theme.colors.primaryContainer }}>
         <Card.Content className="flex w-full items-center justify-between p-0 m-0">
           <View className="flex flex-row">
             <Searchbar
               placeholder="Search"
               className="w-[86%] h-[50px]"
-              inputStyle={{ fontSize: 16, paddingBottom: 6 }}
+              inputStyle={{ fontSize: 14, paddingBottom: 6 }}
               onChangeText={(query) => setSearchQuery(query)}
               value={searchQuery}
               style={{ backgroundColor: theme.colors.primaryContainer }}
@@ -43,9 +43,9 @@ const TopBar = ({ user, handleSignOut }: TopBarProps) => {
 
           { isCardOpen && (
             <List.Section className="w-full">
-              <List.Item title="Manage Account" left={() => <List.Icon icon="account" />} className="px-4" onPress={() => router.push("user-profile")}/>
+              <List.Item title="Manage Account" titleStyle={{ fontSize: 14 }} left={() => <List.Icon icon="account" />} className="px-4" onPress={() => router.push("user-profile")} />
               <Divider className="w-full" style={{ backgroundColor: theme.colors.outline }}/>
-              <List.Item title="Sign Out" left={() => <List.Icon icon="exit-to-app" />} className="px-4" onPress={handleSignOut}/>
+              <List.Item title="Sign Out"  titleStyle={{ fontSize: 14 }} left={() => <List.Icon icon="exit-to-app" />} className="px-4" onPress={handleSignOut} />
             </List.Section>
           )}
 
