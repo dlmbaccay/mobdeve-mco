@@ -2,9 +2,9 @@ import "dotenv/config";
 
 const appConfig = {
   expo: {
-    name: "mobdeve-mco",
-    slug: "mobdeve-mco",
-    scheme: "mobdeve-mco",
+    name: "BikeSafe",
+    slug: "mobdeve-mco", // Expo backend slug/identifier
+    scheme: "bikesafe",
     version: "1.0.0",
     orientation: "portrait",
     icon: "./assets/images/bike-logo.png",
@@ -17,11 +17,11 @@ const appConfig = {
     ios: {
       googleServicesFile: "GoogleService-Info.plist",
       supportsTablet: true,
-      bundleIdentifier: "com.garynation.mobdeve",
+      bundleIdentifier: "com.garynation.bikesafe",
     },
     android: {
       googleServicesFile: process.env.GOOGLE_SERVICES_JSON || "./google-services.json",
-      package: "com.garynation.mobdeve",
+      package: "com.garynation.bikesafe",
       config: {
         googleMaps: {
           apiKey: process.env.GOOGLE_MAPS_API_KEY,
