@@ -232,8 +232,7 @@ const AddReport = ({ reportVisible, hideReport, hideViewReport, slideAnimation, 
 
           <TextInput
             mode="outlined"
-            outlineColor="hsla(0, 100%, 100%, 0)"
-            activeOutlineColor="hsla(0, 100%, 100%, 0)"
+            outlineStyle={{ borderColor: "hsla(0, 100%, 100%, 0)"}}
             placeholder="Title"
             value={title}
             onChangeText={(text) => setTitle(text)}
@@ -245,12 +244,11 @@ const AddReport = ({ reportVisible, hideReport, hideViewReport, slideAnimation, 
 
           <TextInput
             mode="outlined"
-            outlineColor="hsla(0, 100%, 100%, 0)"
-            activeOutlineColor="hsla(0, 100%, 100%, 0)"
+            outlineStyle={{ borderColor: "hsla(0, 100%, 100%, 0)"}}
             placeholder="Description (optional)"
             value={description}
             onChangeText={(text) => setDescription(text)}
-            className="w-[95%] max-h-100 mt-4 py-5 text-base"
+            className="w-[95%] max-h-100 mt-4 py-5 text-lg"
             multiline={true}
             numberOfLines={12}
           />
