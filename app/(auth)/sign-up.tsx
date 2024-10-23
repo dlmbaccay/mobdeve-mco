@@ -1,7 +1,7 @@
 import { View, ScrollView, Image, TouchableOpacity, Alert, useColorScheme } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Button, TextInput, Text, useTheme } from "react-native-paper";
+import { Button, TextInput, Text, useTheme, HelperText } from "react-native-paper";
 import { router } from "expo-router";
 import bikeLogoLight from "../../assets/images/bike-logo-light.png";
 import bikeLogoDark from "../../assets/images/bike-logo-dark.png";
@@ -103,6 +103,14 @@ const SignUp = () => {
     });
   };
 
+  const passwordErrors = () => {
+    return form.password.length < 6 ? "Password must be at least 6 characters" : "";
+  }
+
+  const confirmPasswordErrors = () => {
+    return form.password !== form.confirmPassword ? "Passwords do not match" : "";
+  }
+
   return (
     <SafeAreaView className="h-full w-full" style={{ backgroundColor: theme.colors.background }}>
       <ScrollView contentContainerStyle={{ alignContent: "center", justifyContent: "center", height: "100%" }}>
@@ -158,11 +166,17 @@ const SignUp = () => {
             style={{ backgroundColor: theme.colors.surface }}
           />
 
+          { passwordErrors() !== "" && (
+            <HelperText type="error" visible={passwordErrors() !== ""} className="w-[90%] mt-1">
+              {passwordErrors()}
+            </HelperText>
+          )}
+
           <TextInput
             value={form.confirmPassword}
             mode="outlined"
             label="Confirm Password"
-            className="h-14 w-[90%] mt-4"
+            className={`h-14 w-[90%] ${passwordErrors() !== "" ? "mt-2" : "mt-4"}`}
             secureTextEntry={!confirmPaswordVisible}
             right={
               <TextInput.Icon
@@ -174,11 +188,17 @@ const SignUp = () => {
             style={{ backgroundColor: theme.colors.surface }}
           />
 
+          { confirmPasswordErrors() !== "" && (
+            <HelperText type="error" visible={confirmPasswordErrors() !== ""} className="w-[90%] mt-1">
+              {confirmPasswordErrors()}
+            </HelperText>
+          )}
+
           <Button
             mode="contained"
             onPress={handleSignUp}
             disabled={isSubmitting}
-            className={`${isSubmitting ? "opacity-50" : "opacity-100"} w-[90%] h-14 flex justify-center rounded-md mt-8`}
+            className={`${isSubmitting ? "opacity-50" : "opacity-100"} w-[90%] h-14 flex justify-center rounded-md ${confirmPasswordErrors() !== "" ? 'mt-4' : 'mt-8'}`}
             style={{ backgroundColor: theme.colors.primary }}
           >
             <Text className="text-base" style={{ color: theme.colors.onPrimary, fontWeight: "bold" }}>Sign Up</Text>
