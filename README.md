@@ -10,9 +10,8 @@ BikeSafe is a mobile application designed for cyclists to easily report various 
 https://github.com/dlmbaccay/BikeSafe
 
 ### APK (Preview Build):
-- Download through [Google Drive](https://drive.google.com/file/d/16jlxontF0gbg68X8fhpXF4AKGp4T6pQh/view?usp=sharing)
-- Through [GitHub](https://github.com/dlmbaccay/BikeSafe/tree/main/build) or access through /build folder in the repository
-
+- Download through [Google Drive](https://drive.google.com/file/d/1maFwiP_YFwoXN8w_0kiUlwn-DIM9Uw9B/view?usp=sharing)
+- Through [GitHub](https://github.com/dlmbaccay/BikeSafe/tree/main/build) or access /build folder in the repository
 
 ### Technologies Used:
 - React Native (Expo)
